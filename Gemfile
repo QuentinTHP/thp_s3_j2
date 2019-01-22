@@ -6,3 +6,4 @@ source "https://rubygems.org"
   gem 'nokogiri'
   #gem 'open-uri' #n'est pas une gem, déja installée dans ruby
   gem 'google_drive'
+  gem 'csv'

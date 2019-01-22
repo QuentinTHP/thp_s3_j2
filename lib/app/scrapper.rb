@@ -26,6 +26,15 @@ def save_as_spreadsheet
     spread.save
 end
 
+def save_as_csv
+    CSV.open("db/emails.csv", "w") do |csv|
+        @email_mairies.each do |k,v|
+        csv << [k,v]
+        end
+    end
+
+end
+
 
 
 
