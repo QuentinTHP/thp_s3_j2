@@ -7,13 +7,23 @@ class Scrapper
     attr_accessor :email_mairies
 
 def save_as_JSON
-   # tempHash = {
-        #"key_a" => "val_a",
-       # "key_b" => "val_b"
-   # }
     File.open("db/emails.json","w") do |f|
       f.write(@email_mairies.to_json)
     end
+end
+
+def save_as_spreadsheet
+    session = GoogleDrive::Session.from_config("credentials.json")
+    spread = session.spreadsheet_by_key("11BoOiynwy-wC0qGmoNoSoZXUiBx8EOwgpd-fBBXX6Eg").worksheets[0]
+    spread[2,1] = "Villes"
+    spread[2,2] = "Emails"
+    i = 3
+    @email_mairies.each do |k,v|
+        spread[i,1] = k
+        spread[i,2] = v
+        i +=1
+      end
+    spread.save
 end
 
 
