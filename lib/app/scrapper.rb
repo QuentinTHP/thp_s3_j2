@@ -6,12 +6,14 @@ require 'open-uri'
 class Scrapper
     attr_accessor :email_mairies
 
-def save_as_JSON
+# méthode permettant d'extraire les données dans un fichié emails.json 
+def save_as_json
     File.open("db/emails.json","w") do |f|
       f.write(@email_mairies.to_json)
     end
 end
 
+# méthode permettant d'extraire les données dans un tableaux google spredsheet, ci-cela ne fonctionne pas remplacer "11BoOiynwy-wC0qGmoNoSoZXUiBx8EOwgpd-fBBXX6Eg" par celui d'une de vos feuilles perso sur google spreadsheet
 def save_as_spreadsheet
     session = GoogleDrive::Session.from_config("credentials.json")
     spread = session.spreadsheet_by_key("11BoOiynwy-wC0qGmoNoSoZXUiBx8EOwgpd-fBBXX6Eg").worksheets[0]
@@ -26,6 +28,7 @@ def save_as_spreadsheet
     spread.save
 end
 
+# méthode permettant d'extraire les données dans un fichié emails.csv
 def save_as_csv
     CSV.open("db/emails.csv", "w") do |csv|
         @email_mairies.each do |k,v|
@@ -36,7 +39,7 @@ def save_as_csv
 end
 
 
-
+# ci-dessosu et jusqu'a rb70 il s'agit du code de scrapping réalisé la semaine derniere
 
 def url_and_name
     url = "http://annuaire-des-mairies.com/val-d-oise.html"
@@ -68,6 +71,7 @@ def url_and_name
     name_and_email.reduce Hash.new, :merge
   end
   
+  # On définit le résultat du scrapping comme une instance de l'objet Scrapper 
   def initialize()
     @email_mairies = get_all_email(url_and_name())
   end
